@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:photo_view/photo_view.dart';
 
+import '../app_router.dart';
 import '../blocs/comic_bloc.dart';
 import '../models/comic.dart';
+import '../util/navigation_utils.dart';
+import 'comic_details.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -30,13 +32,13 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
         centerTitle: true,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () async => await _comicBloc.changeComic(ComicChangeMode.previous),
           icon: const Icon(Icons.arrow_left),
           tooltip: 'Previous',
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async => await _comicBloc.changeComic(ComicChangeMode.next),
             icon: const Icon(Icons.arrow_right),
             tooltip: 'Next',
           ),
@@ -46,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           stream: _comicBloc.currentComicStream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator.adaptive();
+              return const Center(child: CircularProgressIndicator.adaptive());
             }
 
             if (snapshot.hasError) {
@@ -57,32 +59,8 @@ class _HomePageState extends State<HomePage> {
 
             var comic = snapshot.data;
 
-            return Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: ListView(
-                children: <Widget>[
-                  Text(
-                    comic?.alt ?? '',
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border)),
-                      const Text('Add to favorites'),
-                    ],
-                  ),
-                  if (comic?.imageUrl != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.6,
-                        child: PhotoView(
-                          imageProvider: NetworkImage(comic!.imageUrl),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+            return ComicDetails(
+              comic: comic,
             );
           }),
       bottomNavigationBar: BottomAppBar(
@@ -95,7 +73,12 @@ class _HomePageState extends State<HomePage> {
               tooltip: 'Home',
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                _comicBloc.retrieveSavedComics();
+                GetIt.I<NavigationUtils>().pushNamed(
+                  AppRouter.favorites,
+                );
+              },
               icon: const Icon(Icons.favorite),
               tooltip: 'Favorites',
             ),
