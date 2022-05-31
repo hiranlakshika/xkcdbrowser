@@ -10,26 +10,36 @@ class ComicApiProvider {
   static const _subApiUrl = 'https://www.xkcd.com/{0}/info.0.json';
 
   Future<Comic?> fetchCurrentComic() async {
-    final response = await Dio().get(_baseApiUrl);
+    try {
+      final response = await Dio().get(_baseApiUrl);
 
-    if (response.statusCode == HttpStatus.ok) {
-      var comic = Comic.fromJson(response.data);
-      return comic;
-    } else {
-      debugPrint('${response.statusCode}: ${response.toString()}');
+      if (response.statusCode == HttpStatus.ok) {
+        var comic = Comic.fromJson(response.data);
+        return comic;
+      } else {
+        debugPrint('${response.statusCode}: ${response.toString()}');
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
     }
     return null;
   }
 
   Future<Comic?> changeComic(int number) async {
     String url = _subApiUrl.replaceAll('{0}', '$number');
-    final response = await Dio().get(url);
 
-    if (response.statusCode == HttpStatus.ok) {
-      var comic = Comic.fromJson(response.data);
-      return comic;
-    } else {
-      debugPrint('${response.statusCode}: ${response.toString()}');
+    try {
+      final response = await Dio().get(url);
+      if (response.statusCode == HttpStatus.ok) {
+        var comic = Comic.fromJson(response.data);
+        return comic;
+      } else {
+        debugPrint('${response.statusCode}: ${response.toString()}');
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
     }
     return null;
   }

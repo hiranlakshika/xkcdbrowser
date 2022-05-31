@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:xkcdbrowser/models/comic.dart';
 
 import '../app_router.dart';
 import '../blocs/comic_bloc.dart';
+import '../models/comic.dart';
+import '../util/message_utils.dart';
 import '../util/navigation_utils.dart';
 
 class ComicDetails extends StatelessWidget {
@@ -43,6 +44,7 @@ class ComicDetails extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     if (comic != null) {
+                      MessageUtils.showMessageInFlushBar(context, '${comic!.title} added to favorites');
                       _comicBloc.addToFavorite(comic!);
                     }
                   },
@@ -78,15 +80,7 @@ class ComicDetails extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: PhotoView(
                   backgroundDecoration: const BoxDecoration(color: Colors.transparent),
-                  loadingBuilder: (context, event) => Center(
-                    child: SizedBox(
-                      width: 20.0,
-                      height: 20.0,
-                      child: CircularProgressIndicator(
-                        value: event == null ? 0 : event.cumulativeBytesLoaded / (event.expectedTotalBytes ?? 0),
-                      ),
-                    ),
-                  ),
+                  loadingBuilder: (context, event) => const Center(child: CircularProgressIndicator.adaptive()),
                   basePosition: Alignment.center,
                   imageProvider: CachedNetworkImageProvider(comic!.imageUrl),
                 ),

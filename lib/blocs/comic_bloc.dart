@@ -40,6 +40,8 @@ class ComicBloc extends BlocBase {
   }
 
   changeComic(ComicChangeMode changeMode) async {
+    int oldNumber = _currentComicNumber;
+
     changeMode == ComicChangeMode.previous ? --_currentComicNumber : ++_currentComicNumber;
 
     final comicBox = objectbox.store.box<Comic>();
@@ -54,8 +56,12 @@ class ComicBloc extends BlocBase {
     }
 
     var comic = await _comicRepository.changeComic(_currentComicNumber);
-    if (comic != null) _currentComicNumber = comic.number;
-    _currentComicSubject.sink.add(comic);
+    if (comic != null) {
+      _currentComicNumber = comic.number;
+      _currentComicSubject.sink.add(comic);
+    } else {
+      _currentComicNumber = oldNumber;
+    }
   }
 
   addToFavorite(Comic comic) {
