@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -17,7 +18,7 @@ class FavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorites'),
+        title: const Text('favorites').tr(),
         centerTitle: true,
       ),
       body: StreamBuilder<List<Comic>>(
@@ -28,9 +29,7 @@ class FavoritesPage extends StatelessWidget {
             }
 
             if (snapshot.hasError) {
-              return const Text(
-                'Something went wrong',
-              );
+              return const Text('something_wrong').tr();
             }
 
             var comics = snapshot.data;

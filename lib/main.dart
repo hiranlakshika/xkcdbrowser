@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -13,9 +14,18 @@ late ObjectBox objectbox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   injectDependencies();
   objectbox = await ObjectBox.create();
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+      path: 'assets/translations',
+      supportedLocales: const [Locale('en', 'US')],
+      fallbackLocale: const Locale('en'),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -27,10 +37,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'xkcd browser',
       theme: ThemeDataConfig.primaryTheme,
-      home: const HomePage(title: 'xkcd browser'),
+      home: const HomePage(title: 'title'),
       onGenerateRoute: AppRouter.generateRoute,
       initialRoute: AppRouter.home,
       navigatorKey: GetIt.I<NavigationUtils>().navigatorKey,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:photo_view/photo_view.dart';
@@ -45,22 +46,22 @@ class ComicDetails extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     if (comic != null) {
-                      MessageUtils.showMessageInFlushBar(context, '${comic!.title} added to favorites');
+                      MessageUtils.showMessageInFlushBar(context, '${comic!.title} ${tr('added_to_favorites')}');
                       _comicBloc.addToFavorite(comic!);
                     }
                   },
                   icon: const Icon(Icons.favorite_border),
-                  tooltip: 'Add to favorites',
+                  tooltip: tr('add_to_favorites'),
                 ),
               IconButton(
                 onPressed: () {
                   if (comic != null) {
-                    Share.share('Hey check this xkcd comic ${constants.xkcdWebUrl}/${comic!.number}/',
-                        subject: 'Hey check this xkcd comic');
+                    Share.share('${tr('share_message')} ${constants.xkcdWebUrl}/${comic!.number}/',
+                        subject: tr('share_message'));
                   }
                 },
                 icon: const Icon(Icons.share),
-                tooltip: 'Share',
+                tooltip: tr('share'),
               ),
               IconButton(
                 onPressed: () {
@@ -68,7 +69,7 @@ class ComicDetails extends StatelessWidget {
                       arguments: {'comicNumber': comic!.number, 'title': comic!.title, 'imageUrl': comic!.imageUrl});
                 },
                 icon: const Icon(Icons.info_outline),
-                tooltip: 'Explain',
+                tooltip: tr('explain'),
               ),
             ],
           ),

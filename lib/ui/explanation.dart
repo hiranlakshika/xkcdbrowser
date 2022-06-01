@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:web_scraper/web_scraper.dart';
@@ -36,7 +37,7 @@ class Explanation extends StatelessWidget {
             }
 
             if (snapshot.hasError) {
-              return const Center(child: Text('Something went wrong'));
+              return Center(child: const Text('something_wrong').tr());
             }
 
             if (snapshot.hasData) {
@@ -63,11 +64,22 @@ class Explanation extends StatelessWidget {
                                 'title': title
                               });
                             },
-                            child: const Text('Show original')),
+                            child: const Text('show_original').tr()),
                       ],
                     ),
                     const SizedBox(
                       height: 8.0,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.info),
+                        Expanded(
+                          child: const Text('explanation_warning').tr(),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12.0,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),

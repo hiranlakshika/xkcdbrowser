@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -12,7 +13,7 @@ class ExplanationWebView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Explanation of $title',
+          '${tr('explanation')} $title',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),

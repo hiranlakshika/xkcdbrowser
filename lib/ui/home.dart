@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -29,18 +30,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title).tr(),
         centerTitle: true,
         leading: IconButton(
           onPressed: () async => await _comicBloc.changeComic(ComicChangeMode.previous),
           icon: const Icon(Icons.arrow_left),
-          tooltip: 'Previous',
+          tooltip: tr('previous'),
         ),
         actions: [
           IconButton(
             onPressed: () async => await _comicBloc.changeComic(ComicChangeMode.next),
             icon: const Icon(Icons.arrow_right),
-            tooltip: 'Next',
+            tooltip: tr('next'),
           ),
         ],
       ),
@@ -52,9 +53,7 @@ class _HomePageState extends State<HomePage> {
             }
 
             if (snapshot.hasError) {
-              return const Text(
-                'Something went wrong',
-              );
+              return const Text('something_wrong').tr();
             }
 
             var comic = snapshot.data;
@@ -70,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               onPressed: () => _comicBloc.fetchCurrentComic(),
               icon: const Icon(Icons.home),
-              tooltip: 'Home',
+              tooltip: tr('home'),
             ),
             IconButton(
               onPressed: () {
@@ -80,12 +79,12 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               icon: const Icon(Icons.favorite),
-              tooltip: 'Favorites',
+              tooltip: tr('favorites'),
             ),
             IconButton(
               onPressed: () {},
               icon: const Icon(Icons.search),
-              tooltip: 'Search',
+              tooltip: tr('search'),
             ),
           ],
         ),

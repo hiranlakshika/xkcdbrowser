@@ -1,0 +1,17 @@
+{
+  "title": "xkcd browser",
+  "show_original": "Show original",
+  "something_wrong": "Something went wrong",
+  "next": "Next",
+  "previous": "Previous",
+  "home": "Home",
+  "favorites": "Favorites",
+  "search": "Search",
+  "explain": "Explain",
+  "share": "Share",
+  "share_message": "Hey check this xkcd comic",
+  "add_to_favorites": "Add to favorites",
+  "added_to_favorites": "added to favorites",
+  "explanation": "Explanation of",
+  "explanation_warning": "The following text has been taken automatically from www.explainxkcd.com. Some part of it can be missing. You can check the original by clicking above button"
+}
