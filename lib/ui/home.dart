@@ -1,14 +1,16 @@
 import 'dart:async';
 
 import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:badges/badges.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:xkcdbrowser/util/message_utils.dart';
 
 import '../blocs/comic_bloc.dart';
 import '../blocs/notification_bloc.dart';
 import '../models/comic.dart';
+import '../models/notification.dart';
+import '../util/message_utils.dart';
 import '../util/theme.dart';
 import 'comic_details.dart';
 import 'favorites_page.dart';
@@ -91,7 +93,7 @@ class _HomePageState extends State<HomePage> {
             label: tr('favorites'),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.notifications),
+            icon: _notificationIconBuilder(),
             label: tr('notifications'),
           ),
         ],
@@ -132,6 +134,36 @@ class _HomePageState extends State<HomePage> {
         });
       },
     );
+  }
+
+  Widget _notificationIconBuilder() {
+    return StreamBuilder<List<NotificationModel>>(
+        stream: _notificationBloc.notificationsStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError || !snapshot.hasData) {
+            return const Icon(Icons.notifications);
+          }
+
+          var notifications = snapshot.data;
+
+          if (notifications != null) {
+            int notificationsCount = notifications.where((element) => element.isNew).length;
+
+            if (notificationsCount == 0) return const Icon(Icons.notifications);
+
+            String notificationValue = notificationsCount > 9 ? '9+' : notificationsCount.toString();
+
+            return Badge(
+              badgeContent: Text(
+                notificationValue,
+                style: TextStyle(fontSize: notificationsCount > 9 ? 10 : null),
+              ),
+              position: BadgePosition.topEnd(),
+              child: const Icon(Icons.notifications),
+            );
+          }
+          return const Icon(Icons.notifications);
+        });
   }
 
   Widget _comicDetailBuilder() {
