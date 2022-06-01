@@ -6,6 +6,7 @@ import 'dependencies_locator.dart';
 import 'models/objectbox/object_box.dart';
 import 'ui/home.dart';
 import 'util/navigation_utils.dart';
+import 'util/theme.dart';
 
 /// Provides access to the ObjectBox Store throughout the app.
 late ObjectBox objectbox;
@@ -25,9 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'xkcd browser',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeDataConfig.primaryTheme,
       home: const HomePage(title: 'xkcd browser'),
       onGenerateRoute: AppRouter.generateRoute,
       initialRoute: AppRouter.home,

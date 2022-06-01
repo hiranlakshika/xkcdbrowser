@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import '../app_router.dart';
 import '../blocs/comic_bloc.dart';
 import '../models/comic.dart';
+import '../util/constants.dart' as constants;
 import '../util/message_utils.dart';
 import '../util/navigation_utils.dart';
 
@@ -54,7 +55,7 @@ class ComicDetails extends StatelessWidget {
               IconButton(
                 onPressed: () {
                   if (comic != null) {
-                    Share.share('Hey check this xkcd comic https://xkcd.com/${comic!.number}/',
+                    Share.share('Hey check this xkcd comic ${constants.xkcdWebUrl}/${comic!.number}/',
                         subject: 'Hey check this xkcd comic');
                   }
                 },
@@ -63,10 +64,8 @@ class ComicDetails extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  GetIt.I<NavigationUtils>().pushNamed(AppRouter.explanationWebView, arguments: {
-                    'url': 'https://www.explainxkcd.com/wiki/index.php/${comic!.number}',
-                    'title': comic!.title
-                  });
+                  GetIt.I<NavigationUtils>().pushNamed(AppRouter.explanation,
+                      arguments: {'comicNumber': comic!.number, 'title': comic!.title, 'imageUrl': comic!.imageUrl});
                 },
                 icon: const Icon(Icons.info_outline),
                 tooltip: 'Explain',

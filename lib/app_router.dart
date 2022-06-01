@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:xkcdbrowser/ui/explanation_web_view.dart';
 
+import 'ui/explanation.dart';
+import 'ui/explanation_web_view.dart';
 import 'ui/favorites_page.dart';
 import 'ui/home.dart';
 import 'ui/saved_comic_page.dart';
@@ -9,6 +10,7 @@ class AppRouter {
   static const String home = '/';
   static const String favorites = 'favorites';
   static const String savedComic = 'savedComic';
+  static const String explanation = 'explanation';
   static const String explanationWebView = 'explanationWebView';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -29,6 +31,19 @@ class AppRouter {
         return MaterialPageRoute(
           settings: RouteSettings(name: settings.name),
           builder: (_) => SavedComicPage(comic: comic),
+        );
+      case explanation:
+        var argsMap = Map.from(settings.arguments as Map<String, dynamic>);
+        int comicNumber = argsMap["comicNumber"];
+        String title = argsMap["title"];
+        String imageUrl = argsMap["imageUrl"];
+        return MaterialPageRoute(
+          settings: RouteSettings(name: settings.name),
+          builder: (_) => Explanation(
+            title: title,
+            comicNumber: comicNumber,
+            imageUrl: imageUrl,
+          ),
         );
       case explanationWebView:
         var argsMap = Map.from(settings.arguments as Map<String, dynamic>);

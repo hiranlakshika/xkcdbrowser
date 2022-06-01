@@ -6,6 +6,7 @@ import '../app_router.dart';
 import '../blocs/comic_bloc.dart';
 import '../models/comic.dart';
 import '../util/navigation_utils.dart';
+import '../util/theme.dart';
 
 class FavoritesPage extends StatelessWidget {
   final ComicBloc _comicBloc = GetIt.I<ComicBloc>();
@@ -50,12 +51,12 @@ class FavoritesPage extends StatelessWidget {
                   child: Material(
                     elevation: 5.0,
                     borderRadius: BorderRadius.circular(15.0),
-                    color: Colors.blueAccent,
+                    color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: XkcdColors.celadon,
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         child: ListTile(
