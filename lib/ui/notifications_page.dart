@@ -1,23 +1,24 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../app_router.dart';
 import '../blocs/comic_bloc.dart';
-import '../models/comic.dart';
+import '../blocs/notification_bloc.dart';
+import '../models/notification.dart';
 import '../util/navigation_utils.dart';
 import '../util/theme.dart';
 
-class FavoritesPage extends StatelessWidget {
+class NotificationsPage extends StatelessWidget {
+  final NotificationBloc _notificationBloc = GetIt.I<NotificationBloc>();
   final ComicBloc _comicBloc = GetIt.I<ComicBloc>();
 
-  FavoritesPage({Key? key}) : super(key: key);
+  NotificationsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Comic>>(
-        stream: _comicBloc.savedComicStream,
+    return StreamBuilder<List<NotificationModel>>(
+        stream: _notificationBloc.notificationsStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator.adaptive());
@@ -27,14 +28,14 @@ class FavoritesPage extends StatelessWidget {
             return const Text('something_wrong').tr();
           }
 
-          var comics = snapshot.data;
+          var notifications = snapshot.data;
 
-          if (comics == null || comics.isEmpty) {
+          if (notifications == null || notifications.isEmpty) {
             return const SizedBox();
           }
 
           return ListView.builder(
-            itemCount: comics.length,
+            itemCount: notifications.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(
@@ -54,26 +55,23 @@ class FavoritesPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: ListTile(
-                        leading: SizedBox(
-                          width: 50,
-                          height: 50,
-                          child: CachedNetworkImage(
-                            imageUrl: comics[index].imageUrl,
-                          ),
-                        ),
                         title: Text(
-                          comics[index].alt,
-                          maxLines: 3,
+                          notifications[index].text,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontWeight: notifications[index].isNew ? FontWeight.bold : null),
                         ),
+                        subtitle: Text(getDate(notifications[index].dateTime)),
                         trailing: IconButton(
                             onPressed: () {
-                              _comicBloc.removeFromFavorites(comics[index].id);
+                              _notificationBloc.deleteNotification(notifications[index].id);
                             },
                             icon: const Icon(Icons.delete)),
                         onTap: () {
-                          GetIt.I<NavigationUtils>()
-                              .pushNamed(AppRouter.savedComic, arguments: {'comic': comics[index]});
+                          _notificationBloc.markAsRead(notifications[index].id);
+                          _comicBloc.retrieveComicByNumber(notifications[index].comicNumber);
+                          GetIt.I<NavigationUtils>().pushNamed(AppRouter.notificationDetails,
+                              arguments: {'title': notifications[index].text});
                         },
                       ),
                     ),
@@ -83,5 +81,15 @@ class FavoritesPage extends StatelessWidget {
             },
           );
         });
+  }
+
+  String getDate(DateTime dateTime) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final date = DateTime(dateTime.year, dateTime.month, dateTime.day);
+    if (date == today) {
+      return 'Today at ${DateFormat("hh:mm a").format(dateTime.toLocal())}';
+    }
+    return '${DateFormat("LLL d, y").format(dateTime.toLocal())} at ${DateFormat("hh:mm a").format(dateTime.toLocal())}';
   }
 }

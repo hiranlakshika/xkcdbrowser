@@ -26,7 +26,7 @@ class ComicApiProvider {
     return null;
   }
 
-  Future<Comic?> changeComic(int number) async {
+  Future<Comic?> getComicByNumber(int number) async {
     String url = _subApiUrl.replaceAll('{0}', '$number');
 
     try {

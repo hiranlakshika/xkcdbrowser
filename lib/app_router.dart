@@ -2,28 +2,23 @@ import 'package:flutter/material.dart';
 
 import 'ui/explanation.dart';
 import 'ui/explanation_web_view.dart';
-import 'ui/favorites_page.dart';
 import 'ui/home.dart';
+import 'ui/notification_details_page.dart';
 import 'ui/saved_comic_page.dart';
 
 class AppRouter {
   static const String home = '/';
-  static const String favorites = 'favorites';
   static const String savedComic = 'savedComic';
   static const String explanation = 'explanation';
   static const String explanationWebView = 'explanationWebView';
+  static const String notificationDetails = 'notificationDetails';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
         return MaterialPageRoute(
           settings: RouteSettings(name: settings.name),
-          builder: (_) => const HomePage(title: 'xkcd browser'),
-        );
-      case favorites:
-        return MaterialPageRoute(
-          settings: RouteSettings(name: settings.name),
-          builder: (_) => FavoritesPage(),
+          builder: (_) => const HomePage(title: 'title'),
         );
       case savedComic:
         var argsMap = Map.from(settings.arguments as Map<String, dynamic>);
@@ -53,6 +48,15 @@ class AppRouter {
           settings: RouteSettings(name: settings.name),
           builder: (_) => ExplanationWebView(
             url: url,
+            title: title,
+          ),
+        );
+      case notificationDetails:
+        var argsMap = Map.from(settings.arguments as Map<String, dynamic>);
+        String title = argsMap["title"];
+        return MaterialPageRoute(
+          settings: RouteSettings(name: settings.name),
+          builder: (_) => NotificationDetails(
             title: title,
           ),
         );

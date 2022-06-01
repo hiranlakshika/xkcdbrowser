@@ -43,16 +43,30 @@ class ComicDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (isFavoriteButtonAvailable)
-                IconButton(
-                  onPressed: () {
-                    if (comic != null) {
-                      MessageUtils.showMessageInFlushBar(context, '${comic!.title} ${tr('added_to_favorites')}');
-                      _comicBloc.addToFavorite(comic!);
-                    }
-                  },
-                  icon: const Icon(Icons.favorite_border),
-                  tooltip: tr('add_to_favorites'),
-                ),
+                StreamBuilder<List<Comic>>(
+                    stream: _comicBloc.savedComicStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox();
+                      }
+
+                      var savedComics = snapshot.data;
+
+                      if (savedComics == null || !savedComics.any((element) => element.number == comic?.number)) {
+                        return IconButton(
+                          onPressed: () {
+                            if (comic != null) {
+                              MessageUtils.showMessageInFlushBar(
+                                  context, '${comic!.title} ${tr('added_to_favorites')}');
+                              _comicBloc.addToFavorite(comic!);
+                            }
+                          },
+                          icon: const Icon(Icons.favorite_border),
+                          tooltip: tr('add_to_favorites'),
+                        );
+                      }
+                      return const SizedBox();
+                    }),
               IconButton(
                 onPressed: () {
                   if (comic != null) {

@@ -8,5 +8,5 @@ class ComicRepository {
 
   Future<Comic?> fetchCurrentComic() async => await _apiProvider.fetchCurrentComic();
 
-  Future<Comic?> changeComic(int number) async => await _apiProvider.changeComic(number);
+  Future<Comic?> getComicByNumber(int number) async => await _apiProvider.getComicByNumber(number);
 }

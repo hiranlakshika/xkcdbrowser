@@ -23,7 +23,7 @@ void main() {
     });
 
     test('fetch previous comic', () async {
-      var comic = await comicRepo.changeComic(previousComicNumber - 1);
+      var comic = await comicRepo.getComicByNumber(previousComicNumber - 1);
 
       // assert
       expect(comic, isNotNull);
