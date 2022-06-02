@@ -3,10 +3,7 @@
 
 A Flutter application for [xkcd](https://xkcd.com/) comics.
 
-<img width="180" src="screenshots/screenshot1.png">
-<img width="180" src="screenshots/screenshot2.png">
-<img width="180" src="screenshots/screenshot3.png">
-<img width="180" src="screenshots/screenshot4.png">
+<img width="180" src="screenshots/screenshot1.png"> <img width="180" src="screenshots/screenshot2.png"> <img width="180" src="screenshots/screenshot3.png"> <img width="180" src="screenshots/screenshot4.png">
 
 ## Features
 
