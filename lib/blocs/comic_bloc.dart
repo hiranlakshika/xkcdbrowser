@@ -88,6 +88,16 @@ class ComicBloc extends BlocBase {
     if (comic != null) _selectedComicSubject.sink.add(comic);
   }
 
+  Future<Comic?> getSearchResult(int number) async {
+    var savedComic = getSavedComic(number);
+    if (savedComic != null) {
+      return savedComic;
+    }
+
+    var comic = await _comicRepository.getComicByNumber(number);
+    return comic;
+  }
+
   addToFavorite(Comic comic) {
     var savedComic = getSavedComic(comic.number);
 

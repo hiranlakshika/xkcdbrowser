@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:badges/badges.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,8 @@ import '../blocs/notification_bloc.dart';
 import '../models/comic.dart';
 import '../models/notification.dart';
 import '../util/message_utils.dart';
-import '../util/theme.dart';
 import 'comic_details.dart';
+import '../util/custom_search_delegate.dart';
 import 'favorites_page.dart';
 import 'notifications_page.dart';
 
@@ -28,7 +27,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ComicBloc _comicBloc = GetIt.I<ComicBloc>();
   final NotificationBloc _notificationBloc = GetIt.I<NotificationBloc>();
-  final TextEditingController _searchTextController = TextEditingController();
   late final List<Widget> _widgetOptions;
   int _selectedIndex = 0;
   late String _title;
@@ -64,20 +62,10 @@ class _HomePageState extends State<HomePage> {
         title: Text(_title).tr(),
         centerTitle: true,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: AnimSearchBar(
-              width: MediaQuery.of(context).size.width - 20,
-              color: XkcdColors.celadon,
-              textController: _searchTextController,
-              closeSearchOnSuffixTap: true,
-              suffixIcon: const Icon(Icons.search),
-              onSuffixTap: () {
-                setState(() {
-                  _searchTextController.clear();
-                });
-              },
-            ),
+          IconButton(
+            onPressed: () => showSearch(context: context, delegate: CustomSearchDelegate()),
+            icon: const Icon(Icons.search),
+            tooltip: tr('search'),
           ),
         ],
       ),

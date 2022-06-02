@@ -7,7 +7,7 @@ import '../app_router.dart';
 import '../blocs/comic_bloc.dart';
 import '../models/comic.dart';
 import '../util/navigation_utils.dart';
-import '../util/theme.dart';
+import 'custom_widgets.dart';
 
 class FavoritesPage extends StatelessWidget {
   final ComicBloc _comicBloc = GetIt.I<ComicBloc>();
@@ -42,41 +42,28 @@ class FavoritesPage extends StatelessWidget {
                   left: 8.0,
                   right: 8.0,
                 ),
-                child: Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.circular(15.0),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: XkcdColors.celadon,
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: ListTile(
-                        leading: SizedBox(
-                          width: 50,
-                          height: 50,
-                          child: CachedNetworkImage(
-                            imageUrl: comics[index].imageUrl,
-                          ),
-                        ),
-                        title: Text(
-                          comics[index].alt,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        trailing: IconButton(
-                            onPressed: () {
-                              _comicBloc.removeFromFavorites(comics[index].id);
-                            },
-                            icon: const Icon(Icons.delete)),
-                        onTap: () {
-                          GetIt.I<NavigationUtils>()
-                              .pushNamed(AppRouter.savedComic, arguments: {'comic': comics[index]});
-                        },
+                child: XkcdCustomWidgets.xkcdCustomCard(
+                  child: ListTile(
+                    leading: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: CachedNetworkImage(
+                        imageUrl: comics[index].imageUrl,
                       ),
                     ),
+                    title: Text(
+                      comics[index].alt,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    trailing: IconButton(
+                        onPressed: () {
+                          _comicBloc.removeFromFavorites(comics[index].id);
+                        },
+                        icon: const Icon(Icons.delete)),
+                    onTap: () {
+                      GetIt.I<NavigationUtils>().pushNamed(AppRouter.savedComic, arguments: {'comic': comics[index]});
+                    },
                   ),
                 ),
               );

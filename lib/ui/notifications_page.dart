@@ -7,7 +7,7 @@ import '../blocs/comic_bloc.dart';
 import '../blocs/notification_bloc.dart';
 import '../models/notification.dart';
 import '../util/navigation_utils.dart';
-import '../util/theme.dart';
+import 'custom_widgets.dart';
 
 class NotificationsPage extends StatelessWidget {
   final NotificationBloc _notificationBloc = GetIt.I<NotificationBloc>();
@@ -43,38 +43,26 @@ class NotificationsPage extends StatelessWidget {
                   left: 8.0,
                   right: 8.0,
                 ),
-                child: Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.circular(15.0),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: XkcdColors.celadon,
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          notifications[index].text,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontWeight: notifications[index].isNew ? FontWeight.bold : null),
-                        ),
-                        subtitle: Text(getDate(notifications[index].dateTime)),
-                        trailing: IconButton(
-                            onPressed: () {
-                              _notificationBloc.deleteNotification(notifications[index].id);
-                            },
-                            icon: const Icon(Icons.delete)),
-                        onTap: () {
-                          _notificationBloc.markAsRead(notifications[index].id);
-                          _comicBloc.retrieveComicByNumber(notifications[index].comicNumber);
-                          GetIt.I<NavigationUtils>().pushNamed(AppRouter.notificationDetails,
-                              arguments: {'title': notifications[index].text});
-                        },
-                      ),
+                child: XkcdCustomWidgets.xkcdCustomCard(
+                  child: ListTile(
+                    title: Text(
+                      notifications[index].text,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontWeight: notifications[index].isNew ? FontWeight.bold : null),
                     ),
+                    subtitle: Text(getDate(notifications[index].dateTime)),
+                    trailing: IconButton(
+                        onPressed: () {
+                          _notificationBloc.deleteNotification(notifications[index].id);
+                        },
+                        icon: const Icon(Icons.delete)),
+                    onTap: () {
+                      _notificationBloc.markAsRead(notifications[index].id);
+                      _comicBloc.retrieveComicByNumber(notifications[index].comicNumber);
+                      GetIt.I<NavigationUtils>()
+                          .pushNamed(AppRouter.notificationDetails, arguments: {'title': notifications[index].text});
+                    },
                   ),
                 ),
               );

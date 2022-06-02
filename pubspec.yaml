@@ -46,7 +46,6 @@ dependencies:
   another_flushbar: ^1.10.29
   web_scraper: ^0.1.4
   easy_localization: ^3.0.1
-  anim_search_bar: ^2.0.2
   badges: ^2.0.2
 
 dev_dependencies:
