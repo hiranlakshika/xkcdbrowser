@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:xkcdbrowser/ui/comic_details.dart';
 
 import '../models/comic.dart';
+import 'comic_details_widget.dart';
 
-class SavedComicPage extends StatelessWidget {
+class ComicDetailsPage extends StatelessWidget {
   final Comic comic;
+  final bool isFavoriteButtonAvailable;
 
-  const SavedComicPage({Key? key, required this.comic}) : super(key: key);
+  const ComicDetailsPage({Key? key, required this.comic, this.isFavoriteButtonAvailable = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,9 @@ class SavedComicPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: ComicDetails(
+      body: ComicDetailsWidget(
         comic: comic,
-        isFavoriteButtonAvailable: false,
+        isFavoriteButtonAvailable: isFavoriteButtonAvailable,
       ),
     );
   }

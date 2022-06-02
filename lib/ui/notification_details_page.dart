@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 
 import '../blocs/comic_bloc.dart';
 import '../models/comic.dart';
-import 'comic_details.dart';
+import 'comic_details_widget.dart';
 
 class NotificationDetails extends StatelessWidget {
   final String title;
@@ -40,7 +40,7 @@ class NotificationDetails extends StatelessWidget {
               return const SizedBox();
             }
 
-            return ComicDetails(
+            return ComicDetailsWidget(
               comic: comic,
             );
           }),

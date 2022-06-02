@@ -12,12 +12,12 @@ import '../util/constants.dart' as constants;
 import '../util/message_utils.dart';
 import '../util/navigation_utils.dart';
 
-class ComicDetails extends StatelessWidget {
+class ComicDetailsWidget extends StatelessWidget {
   final Comic? comic;
   final bool isFavoriteButtonAvailable;
   final ComicBloc _comicBloc = GetIt.I<ComicBloc>();
 
-  ComicDetails({Key? key, required this.comic, this.isFavoriteButtonAvailable = true}) : super(key: key);
+  ComicDetailsWidget({Key? key, required this.comic, this.isFavoriteButtonAvailable = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

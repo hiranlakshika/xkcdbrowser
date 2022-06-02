@@ -3,9 +3,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../app_router.dart';
 import '../blocs/comic_bloc.dart';
 import '../models/comic.dart';
 import '../ui/custom_widgets.dart';
+import 'navigation_utils.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   final ComicBloc _comicBloc = GetIt.I<ComicBloc>();
@@ -67,7 +69,8 @@ class CustomSearchDelegate extends SearchDelegate {
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        onTap: () {},
+                        onTap: () => GetIt.I<NavigationUtils>().pushNamed(AppRouter.comicDetailsPage,
+                            arguments: {'comic': result, 'isFavoriteButtonAvailable': true}),
                       ),
                     );
                   },

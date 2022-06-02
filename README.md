@@ -1,16 +1,22 @@
+
 # xkcdbrowser
 
-A new Flutter project.
+A Flutter application for [xkcd](https://xkcd.com/) comics.
 
-## Getting Started
+<img width="180" src="screenshots/screenshot1.png">
+<img width="180" src="screenshots/screenshot2.png">
+<img width="180" src="screenshots/screenshot3.png">
+<img width="180" src="screenshots/screenshot4.png">
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- Browse the xkcd comics from the latest one to older ones
+- Search comics by number
+- Add your favorite comics to view them offline
+- View more details and explanations for comics
+- Share comics with your friends
+- Get notifications for new comics
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+[ObjectBox](https://pub.dev/packages/objectbox) NoSQL database is used to store favorites. The following command should be run for the first time before running the project through IDE.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    flutter pub run build_runner build

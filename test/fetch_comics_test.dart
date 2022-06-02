@@ -6,6 +6,7 @@ import 'package:xkcdbrowser/resources/comic_api_provider.dart';
 GetIt locator = GetIt.instance;
 
 void main() {
+  //injecting dependencies
   locator.registerLazySingleton<ComicApiProvider>(() => ComicApiProvider());
   locator.registerLazySingleton<ComicRepository>(() => ComicRepository());
 

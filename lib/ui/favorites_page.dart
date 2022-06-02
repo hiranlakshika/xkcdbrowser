@@ -62,7 +62,8 @@ class FavoritesPage extends StatelessWidget {
                         },
                         icon: const Icon(Icons.delete)),
                     onTap: () {
-                      GetIt.I<NavigationUtils>().pushNamed(AppRouter.savedComic, arguments: {'comic': comics[index]});
+                      GetIt.I<NavigationUtils>()
+                          .pushNamed(AppRouter.comicDetailsPage, arguments: {'comic': comics[index]});
                     },
                   ),
                 ),

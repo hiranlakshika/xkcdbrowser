@@ -7,6 +7,7 @@ import 'package:web_scraper/web_scraper.dart';
 import '../app_router.dart';
 import '../util/constants.dart' as constants;
 import '../util/navigation_utils.dart';
+import '../util/theme.dart';
 
 class Explanation extends StatelessWidget {
   final String title;
@@ -70,13 +71,26 @@ class Explanation extends StatelessWidget {
                     const SizedBox(
                       height: 8.0,
                     ),
-                    Row(
-                      children: [
-                        const Icon(Icons.info),
-                        Expanded(
-                          child: const Text('explanation_warning').tr(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: XkcdColors.sandyBrown,
                         ),
-                      ],
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.info, size: 30.0,),
+                            const SizedBox(
+                              width: 8.0,
+                            ),
+                            Expanded(
+                              child: const Text('explanation_warning').tr(),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 12.0,
@@ -99,7 +113,10 @@ class Explanation extends StatelessWidget {
   }
 
   String _getExplanationText(String text) {
-    final result = text.substring(0, text.indexOf('Transcript[edit]')).trim();
-    return result;
+    if (text.contains('Transcript[edit]')) {
+      final result = text.substring(0, text.indexOf('Transcript[edit]')).trim();
+      return result;
+    }
+    return text;
   }
 }

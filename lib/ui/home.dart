@@ -10,8 +10,9 @@ import '../blocs/notification_bloc.dart';
 import '../models/comic.dart';
 import '../models/notification.dart';
 import '../util/message_utils.dart';
-import 'comic_details.dart';
+import '../util/widget_keys.dart' as keys;
 import '../util/custom_search_delegate.dart';
+import 'comic_details_widget.dart';
 import 'favorites_page.dart';
 import 'notifications_page.dart';
 
@@ -180,16 +181,18 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
+                        key: const Key(keys.previousButtonKey),
                         onPressed: () async => await _comicBloc.changeComic(ComicChangeMode.previous),
                         child: const Text('previous').tr()),
                     ElevatedButton(
+                        key: const Key(keys.nextButtonKey),
                         onPressed: () async => await _comicBloc.changeComic(ComicChangeMode.next),
                         child: const Text('next').tr()),
                   ],
                 ),
               ),
               Expanded(
-                child: ComicDetails(
+                child: ComicDetailsWidget(
                   comic: comic,
                 ),
               ),
