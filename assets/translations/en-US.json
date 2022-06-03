@@ -17,5 +17,6 @@
   "new_comic_found": "New comic found",
   "search_hint": "Enter comic number to search",
   "no_search_result": "No search results found",
+  "no_comics" : "No comics were found",
   "explanation_warning": "The following text has been taken automatically from www.explainxkcd.com. Some part of it can be missing. You can check the original by clicking above button"
 }

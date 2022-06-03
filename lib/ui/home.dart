@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 
 import '../blocs/comic_bloc.dart';
 import '../blocs/notification_bloc.dart';
+import '../models/change_notifier/application_error_notifier.dart';
 import '../models/comic.dart';
 import '../models/notification.dart';
 import '../util/message_utils.dart';
@@ -26,9 +27,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final ComicBloc _comicBloc = GetIt.I<ComicBloc>();
-  final NotificationBloc _notificationBloc = GetIt.I<NotificationBloc>();
+  static const String appErrorListenerName = "HomeAppErrorListener";
+
+  late final ComicBloc _comicBloc;
+  late final NotificationBloc _notificationBloc;
   late final List<Widget> _widgetOptions;
+  late final ApplicationErrorNotifier _applicationErrorNotifier;
   int _selectedIndex = 0;
   late String _title;
   Timer? _timer;
@@ -36,6 +40,9 @@ class _HomePageState extends State<HomePage> {
   @override
   initState() {
     super.initState();
+    _comicBloc = GetIt.I<ComicBloc>();
+    _notificationBloc = GetIt.I<NotificationBloc>();
+    _applicationErrorNotifier = GetIt.I<ApplicationErrorNotifier>();
     _comicBloc.fetchCurrentComic();
     _comicBloc.retrieveSavedComics();
     _notificationBloc.retrieveNotifications();
@@ -48,12 +55,16 @@ class _HomePageState extends State<HomePage> {
     ];
 
     _title = widget.title;
+
+    // get notified when back-end services failed
+    _applicationErrorNotifier.addListenerWithName(_showErrorMessage, appErrorListenerName);
   }
 
   @override
   dispose() {
     super.dispose();
     _timer?.cancel();
+    _applicationErrorNotifier.removeListenerWithName(_showErrorMessage, appErrorListenerName);
   }
 
   @override
@@ -206,5 +217,12 @@ class _HomePageState extends State<HomePage> {
             ],
           );
         });
+  }
+
+  _showErrorMessage() {
+    MessageUtils.showErrorInFlushBar(
+      context,
+      _applicationErrorNotifier.data,
+    );
   }
 }
