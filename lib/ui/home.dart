@@ -74,11 +74,17 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
+            icon: const Icon(
+              Icons.home,
+              key: Key(keys.homeButtonKey),
+            ),
             label: tr('home'),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.favorite),
+            icon: const Icon(
+              Icons.favorite,
+              key: Key(keys.favoriteButtonKey),
+            ),
             label: tr('favorites'),
           ),
           BottomNavigationBarItem(
@@ -127,6 +133,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _notificationIconBuilder() {
     return StreamBuilder<List<NotificationModel>>(
+        key: const Key(keys.notificationsButtonKey),
         stream: _notificationBloc.notificationsStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting || snapshot.hasError || !snapshot.hasData) {

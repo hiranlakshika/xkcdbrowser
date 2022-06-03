@@ -11,6 +11,7 @@ import '../models/comic.dart';
 import '../util/constants.dart' as constants;
 import '../util/message_utils.dart';
 import '../util/navigation_utils.dart';
+import '../util/widget_keys.dart' as keys;
 
 class ComicDetailsWidget extends StatelessWidget {
   final Comic? comic;
@@ -54,6 +55,7 @@ class ComicDetailsWidget extends StatelessWidget {
 
                       if (savedComics == null || !savedComics.any((element) => element.number == comic?.number)) {
                         return IconButton(
+                          key: const Key(keys.addToFavoriteButtonKey),
                           onPressed: () {
                             if (comic != null) {
                               MessageUtils.showMessageInFlushBar(
@@ -68,6 +70,7 @@ class ComicDetailsWidget extends StatelessWidget {
                       return const SizedBox();
                     }),
               IconButton(
+                key: const Key(keys.shareButtonKey),
                 onPressed: () {
                   if (comic != null) {
                     Share.share('${tr('share_message')} ${constants.xkcdWebUrl}/${comic!.number}/',
@@ -78,6 +81,7 @@ class ComicDetailsWidget extends StatelessWidget {
                 tooltip: tr('share'),
               ),
               IconButton(
+                key: const Key(keys.infoButtonKey),
                 onPressed: () {
                   GetIt.I<NavigationUtils>().pushNamed(AppRouter.explanation,
                       arguments: {'comicNumber': comic!.number, 'title': comic!.title, 'imageUrl': comic!.imageUrl});
