@@ -187,34 +187,9 @@ class _HomePageState extends State<HomePage> {
 
           var comic = snapshot.data;
 
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 12.0,
-                  right: 12.0,
-                  top: 12.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                        key: const Key(keys.previousButtonKey),
-                        onPressed: () async => await _comicBloc.changeComic(ComicChangeMode.previous),
-                        child: const Text('previous').tr()),
-                    ElevatedButton(
-                        key: const Key(keys.nextButtonKey),
-                        onPressed: () async => await _comicBloc.changeComic(ComicChangeMode.next),
-                        child: const Text('next').tr()),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: ComicDetailsWidget(
-                  comic: comic,
-                ),
-              ),
-            ],
+          return ComicDetailsWidget(
+            comic: comic,
+            isNavigationAvailable: true,
           );
         });
   }

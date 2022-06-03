@@ -16,9 +16,12 @@ import '../util/widget_keys.dart' as keys;
 class ComicDetailsWidget extends StatelessWidget {
   final Comic? comic;
   final bool isFavoriteButtonAvailable;
+  final bool isNavigationAvailable;
   final ComicBloc _comicBloc = GetIt.I<ComicBloc>();
 
-  ComicDetailsWidget({Key? key, required this.comic, this.isFavoriteButtonAvailable = true}) : super(key: key);
+  ComicDetailsWidget(
+      {Key? key, required this.comic, this.isFavoriteButtonAvailable = true, this.isNavigationAvailable = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +46,12 @@ class ComicDetailsWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              if (isNavigationAvailable)
+                IconButton(
+                    key: const Key(keys.previousButtonKey),
+                    tooltip: tr('previous'),
+                    onPressed: () async => await _comicBloc.changeComic(ComicChangeMode.previous),
+                    icon: const Icon(Icons.arrow_left)),
               if (isFavoriteButtonAvailable)
                 StreamBuilder<List<Comic>>(
                     stream: _comicBloc.savedComicStream,
@@ -89,6 +98,12 @@ class ComicDetailsWidget extends StatelessWidget {
                 icon: const Icon(Icons.info_outline),
                 tooltip: tr('explain'),
               ),
+              if (isNavigationAvailable)
+                IconButton(
+                    key: const Key(keys.nextButtonKey),
+                    tooltip: tr('next'),
+                    onPressed: () async => await _comicBloc.changeComic(ComicChangeMode.next),
+                    icon: const Icon(Icons.arrow_right)),
             ],
           ),
           if (comic?.imageUrl != null)
